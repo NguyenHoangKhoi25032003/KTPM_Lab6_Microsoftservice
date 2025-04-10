@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "amqplib": "^0.10.7",
+    "express": "^5.1.0",
+    "http-proxy": "^1.18.1",
+    "pg": "^8.14.1"
+  }
+}

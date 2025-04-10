@@ -1,0 +1,53 @@
+version: '3'
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - product-service
+      - order-service
+      - customer-service
+
+  product-service:
+    build: ./product-service
+    depends_on:
+      - product-db
+
+  order-service:
+    build: ./order-service
+    depends_on:
+      - order-db
+      - rabbitmq
+
+  customer-service:
+    build: ./customer-service
+    depends_on:
+      - customer-db
+
+  product-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: products
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  order-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  customer-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: customers
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
